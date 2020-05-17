@@ -6,6 +6,7 @@ require (
 	github.com/golang/protobuf v1.4.2
 	github.com/grpc-ecosystem/grpc-gateway v1.14.5
 	gitlab.com/pantomath-io/demo-grpc v0.0.0-20171010145848-6dd27f9b2ed4 // indirect
+	go.uber.org/zap v1.15.0
 	golang.org/x/net v0.0.0-20200513185701-a91f0712d120 // indirect
 	golang.org/x/sys v0.0.0-20200515095857-1151b9dac4a9 // indirect
 	golang.org/x/text v0.3.2 // indirect

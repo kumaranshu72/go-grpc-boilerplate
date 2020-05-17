@@ -29,3 +29,6 @@ $ openssl req -new -x509 -sha256 -key cert/server.key -out cert/server.crt -days
 $ openssl req -new -sha256 -key cert/server.key -out cert/server.csr
 $ openssl x509 -req -sha256 -in cert/server.csr -signkey cert/server.key -out cert/server.crt -days 3650
 </code>
+
+<h1>Instructions to run server</h1>
+<code>./cmd/server/server -grpc-port=3000 -http-port=8080 -log-level=-1 -log-time-format=2006-01-02T15:04:05.999999999Z07:00</code>

@@ -3,6 +3,7 @@ package rest
 import (
 	"context"
 	v1 "live-tracking/pkg/api/v1"
+	"live-tracking/pkg/logger"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
@@ -27,7 +29,7 @@ func RunServer(ctx context.Context, grpcPort, httpPort string) error {
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(creds)}
 	if err := v1.RegisterHealthHandlerFromEndpoint(ctx, mux, "localhost:"+grpcPort, opts); err != nil {
-		log.Fatalf("failed to start HTTP gateway: %v", err)
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 	}
 
 	srv := &http.Server{
@@ -49,6 +51,6 @@ func RunServer(ctx context.Context, grpcPort, httpPort string) error {
 		_ = srv.Shutdown(ctx)
 	}()
 
-	log.Println("starting HTTP/REST gateway...")
+	logger.Log.Info("starting HTTP/REST gateway...")
 	return srv.ListenAndServe()
 }

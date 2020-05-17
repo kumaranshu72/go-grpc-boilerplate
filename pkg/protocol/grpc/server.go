@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	v1 "live-tracking/pkg/api/v1"
+	"live-tracking/pkg/logger"
 	"log"
 	"net"
 	"os"
@@ -36,13 +37,13 @@ func RunServer(ctx context.Context, v1Api v1.HealthServer, port string) error {
 	go func() {
 		for range c {
 			// sig is a ^C, handle it
-			log.Println("shutting Down GRPC Server")
+			logger.Log.Warn("shutting down gRPC server...")
 			server.GracefulStop()
 			<-ctx.Done()
 		}
 	}()
 
 	// start gRPC server
-	log.Printf("Starting gRPC Server...")
+	logger.Log.Info("starting gRPC server...")
 	return server.Serve(listen)
 }

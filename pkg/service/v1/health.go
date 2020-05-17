@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	v1 "live-tracking/pkg/api/v1"
+	"live-tracking/pkg/logger"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -37,8 +38,10 @@ func (s *healthServiceServer) GetHealth(ctx context.Context, req *v1.EmptyReques
 
 	// check if the API version requested by client is supported by server
 	if err := s.checkAPI(req.Api); err != nil {
+		logger.Log.Warn("Api version not supported")
 		return nil, err
 	}
+	logger.Log.Info("Health check Successful")
 
 	data := &v1.HealthResponse_Data{
 		Message: "server is live",

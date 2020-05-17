@@ -17,7 +17,7 @@ type healthServiceServer struct {
 }
 
 // NewHealthService creates new health service
-func NewHealthService() {
+func NewHealthService() v1.HealthServer {
 	return &healthServiceServer{}
 }
 
@@ -38,7 +38,7 @@ func (s *healthServiceServer) GetHealth(ctx context.Context, req *v1.EmptyReques
 		Message: "server is live",
 	}
 	return &v1.HealthResponse{
-		StatusCode:    codes.OK,
+		StatusCode:    200,
 		StatusMessage: "success",
 		Data:          data,
 	}, nil

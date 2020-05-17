@@ -1,10 +1,10 @@
-syntx = "proto3";
+syntax = "proto3";
 
 package v1;
 
 // Response message for health check api
 message HealthResponse {
-  int 34 statusCode = 1;
+  int32 statusCode = 1;
   string statusMessage = 2;
   message Data {
     string message = 1;
@@ -12,8 +12,12 @@ message HealthResponse {
   Data data = 3;
 }
 
+// Request empty message
+message EmptyRequest {
+}
+
 // Healrh service defination
 service Health {
   // get health of the server
-  grpc GetServerHealth() returns(HealthResponse){}
+  rpc GetHealth(EmptyRequest) returns(HealthResponse){}
 }

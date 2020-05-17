@@ -1,2 +1,4 @@
 .DS_store
 bin
+cmd/client-grpc/client-grpc
+cmd/server/server

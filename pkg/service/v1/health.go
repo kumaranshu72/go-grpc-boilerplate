@@ -34,6 +34,12 @@ func (s *healthServiceServer) checkAPI(api string) error {
 
 // GetHealth checks the health of the server
 func (s *healthServiceServer) GetHealth(ctx context.Context, req *v1.EmptyRequest) (*v1.HealthResponse, error) {
+
+	// check if the API version requested by client is supported by server
+	if err := s.checkAPI(req.Api); err != nil {
+		return nil, err
+	}
+
 	data := &v1.HealthResponse_Data{
 		Message: "server is live",
 	}

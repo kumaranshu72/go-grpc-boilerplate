@@ -1,6 +1,7 @@
 .DS_store
 bin
 cmd/client-grpc/client-grpc
-cmd/server/server
 config/reader/config.toml
 storage
+main
+cmd/server/server

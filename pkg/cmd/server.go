@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	// "flag"
 	"fmt"
 	"live-tracking/pkg/logger"
 	"live-tracking/config"

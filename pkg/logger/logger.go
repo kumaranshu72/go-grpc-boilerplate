@@ -5,6 +5,7 @@ import (
 	"os"
 	"sync"
 	"time"
+	"log"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -61,11 +62,21 @@ func Init(lvl int, timeFormat string) error {
 		}
 		consoleEncoder := zapcore.NewJSONEncoder(ecfg)
 
+		fileEncoder := zapcore.NewJSONEncoder(ecfg)
+
+
 		// Join the outputs, encoders, and level-handling functions into
 		// zapcore.
+		dt := time.Now().Format("01-02-2006") // Date in MM-DD-YYYY
+		f, err := os.OpenFile("storage/log/"+dt+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0600)
+		if err != nil {
+			log.Fatalf("Log file issues %v", err)
+		}
 		core := zapcore.NewTee(
 			zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
 			zapcore.NewCore(consoleEncoder, consoleInfos, lowPriority),
+			zapcore.NewCore(fileEncoder, zapcore.AddSync(f), highPriority),
+			zapcore.NewCore(fileEncoder, zapcore.AddSync(f), lowPriority),
 		)
 
 		// From a zapcore.Core, it's easy to construct a Logger.

@@ -3,3 +3,4 @@ bin
 cmd/client-grpc/client-grpc
 cmd/server/server
 config/reader/config.toml
+storage

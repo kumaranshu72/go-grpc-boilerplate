@@ -38,3 +38,4 @@ $ openssl x509 -req -sha256 -in cert/server.csr -signkey cert/server.key -out ce
 - storing logs to file
 - centralized logging with coorelation id support
 - context as singleton
+- Authentication middleware for http and grpc

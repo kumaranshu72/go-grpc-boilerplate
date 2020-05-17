@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 const (
@@ -20,8 +21,14 @@ func main() {
 	address := flag.String("server", "", "gRPC server in format host:port")
 	flag.Parse()
 
+	// Create the client TLS credentials
+	creds, err := credentials.NewClientTLSFromFile("cert/server.crt", "")
+	if err != nil {
+		log.Fatalf("could not load tls cert: %s", err)
+	}
+
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*address, grpc.WithInsecure())
+	conn, err := grpc.Dial(*address, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

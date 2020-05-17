@@ -21,3 +21,11 @@ export PATH=$PATH:$GOROOT:$GOPATH:$GOBIN
 
 <h1>Instructions to compile protofile</h1>
 <code>protoc --proto_path=api/proto/v1 --proto_path=third_party --go_out=plugins=grpc:pkg/api/v1 health.proto</code>
+
+<h1>Instructions to generate Open SSL certificate</h1>
+<code>
+$ openssl genrsa -out cert/server.key 2048
+$ openssl req -new -x509 -sha256 -key cert/server.key -out cert/server.crt -days 3650
+$ openssl req -new -sha256 -key cert/server.key -out cert/server.csr
+$ openssl x509 -req -sha256 -in cert/server.csr -signkey cert/server.key -out cert/server.crt -days 3650
+</code>

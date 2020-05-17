@@ -9,6 +9,7 @@ import (
 	"os/signal"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 // RunServer runs gRPC service to publish GetHealth service
@@ -19,7 +20,14 @@ func RunServer(ctx context.Context, v1Api v1.HealthServer, port string) error {
 	}
 
 	// register service
-	server := grpc.NewServer()
+	// adding ssl
+	var opts []grpc.ServerOption
+	creds, err := credentials.NewServerTLSFromFile("cert/server.crt", "cert/server.key")
+	if err != nil {
+		log.Fatalf("Failed to generate credentials %v", err)
+	}
+	opts = []grpc.ServerOption{grpc.Creds(creds)}
+	server := grpc.NewServer(opts...)
 	v1.RegisterHealthServer(server, v1Api)
 
 	// graceful shutdown

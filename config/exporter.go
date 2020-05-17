@@ -2,19 +2,17 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"live-tracking/config/reader"
 	"live-tracking/pkg/model"
 	"log"
 	"sync"
+	"flag"
 
 	"github.com/spf13/viper"
 )
 
 const (
 	envLabel     = "ENVIRONMENT"
-	envDevLabel  = "DEVELOPMENT"
-	envProdLabel = "PRODUCTION"
 
 	envGrpcPortLabel = "GRPC_PORT"
 	envHttpPortLabel = "HTTP_PORT"
@@ -65,10 +63,17 @@ func keyExistsInConfig(key string, m map[string]interface{}) error {
 
 // set configuration to the configuration
 func setConfig(cfg *viper.Viper) *model.Configuration {
+	// get environment flag
+	environmentLabel := flag.String("env", "", "env config")
+	flag.Parse()
+	if *environmentLabel == "" {
+		*environmentLabel = "development"
+	}
+
 	c := new(model.Configuration)
 	var value interface{}
 	var interr error
-	env := GetEnv(envLabel, envDevLabel)
+	env := GetEnv(envLabel, *environmentLabel)
 
 	if err := keyExistsInConfig(env, cfg.GetStringMap(env)); err != nil {
 		log.Fatalf("config for " + env + " not found")

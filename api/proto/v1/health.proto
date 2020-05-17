@@ -1,0 +1,19 @@
+syntx = "proto3";
+
+package v1;
+
+// Response message for health check api
+message HealthResponse {
+  int 34 statusCode = 1;
+  string statusMessage = 2;
+  message Data {
+    string message = 1;
+  }
+  Data data = 3;
+}
+
+// Healrh service defination
+service Health {
+  // get health of the server
+  grpc GetServerHealth() returns(HealthResponse){}
+}

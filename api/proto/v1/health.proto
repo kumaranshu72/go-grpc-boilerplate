@@ -2,6 +2,37 @@ syntax = "proto3";
 
 package v1;
 
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Live-Tracking-Services";
+		version: "1.0";
+		contact: {
+			name: "Live Tracking Backend API";
+			url: "https://github.com/kumaranshu72";
+			email: "kumaranshu72@gmail.com";
+      };
+    };
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+    responses: {
+		key: "404";
+		value: {
+			description: "Returned when the resource does not exist.";
+			schema: {
+				json_schema: {
+					type: STRING;
+				}
+			}
+		}
+	}
+};
+
 // Response message for health check api
 message HealthResponse {
   int32 statusCode = 1;
@@ -20,5 +51,9 @@ message EmptyRequest {
 // Healrh service defination
 service Health {
   // get health of the server
-  rpc GetHealth(EmptyRequest) returns(HealthResponse){}
+  rpc GetHealth(EmptyRequest) returns(HealthResponse){
+    option (google.api.http) = {
+            get: "/v1/health"
+    };
+  }
 }
